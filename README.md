@@ -74,3 +74,25 @@ mcheck.verifyValidation(requestID, pin, new MCheckCallback<VerifyValidationResul
     }
 });
 ```
+**Validation Status**
+```java
+final String requestID = ""; //request id received from mcheck.requestValidation - response.getId()
+
+mcheck.checkValidationStatus(requestID, new MCheckCallback<ValidationStatusResult>() {
+    @Override
+    public void onResponse(ValidationStatusResult response, Exception error) {
+        if (error != null) {
+            if (error instanceof MCheckException) {
+                final MCheckException serverError = (MCheckException) error;
+                Log.e(TAG, "error code: " + serverError.getCode() + " error message: " + serverError.getMessage());
+            } else {
+                Log.e(TAG, " error message: " + error.getMessage());
+            }
+
+            return;
+        }
+        
+        Log.d(TAG, "Validation status: " + String.valueOf(response.isValidated()));
+    }
+});
+```
